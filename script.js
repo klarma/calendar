@@ -1,21 +1,30 @@
 const days = ["pon", "wt", "śrd", "czw", "pt", "sb", "niedz"];
 
-const createDay = (i) => {
-    document.querySelector(".container").innerHTML += `<div class="day">${days[i]}</div>`;
+const createDay = (dayName) => {
+    const day = document.createElement('div');
+    day.classList.add("day");
+    day.innerText = dayName;
+
+    return day;
 };
 
 const createWeek = () => {
+    const week = document.createElement('div');
+
     for (let i = 0; i < days.length; i++) {
-        createDay(i);
+        week.appendChild(createDay(days[i]));
     };
+
+    return week;
 };
 
-const createMonth = (daysOfMonth) => {
+function createMonth(daysOfMonth) {
     for (let i = 0; i < Math.floor(daysOfMonth / days.length); i++) {
-        createWeek();
+        document.querySelector(".container").appendChild(createWeek());
     };
+
     for (let i = 0; i < (daysOfMonth % days.length); i++) {
-        createDay(i);
+        document.querySelector(".container").appendChild(createDay(days[i]));
     };
 };
 

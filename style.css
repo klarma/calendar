@@ -16,10 +16,6 @@ body {
     background-color: #eee;
 }
 
-.container {
-   max-height: 50vh;
-}
-
 .day {
     display: inline-block;
     width: 60px;
@@ -31,5 +27,7 @@ body {
 }
 
 .day__month{
+    display: block;
+    margin: 10px 0;
     color: red;
 }
