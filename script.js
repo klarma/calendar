@@ -1,4 +1,5 @@
-const days = ["pon", "wt", "śrd", "czw", "pt", "sb", "niedz"];          
+const days = ["pon", "wt", "śrd", "czw", "pt", "sb", "niedz"];
+let firstDayOfWeek = 0;
 
 const createDay = (dayName) => {
     const day = document.createElement('div');
@@ -8,11 +9,16 @@ const createDay = (dayName) => {
     return day;
 };
 
-const createWeek = (countsDays) => { 
+const createWeek = (countDays, firstDayOfWeek) => {
     const week = document.createElement('div');
 
-    for (let i = 0; i < countsDays; i++) {
-        week.appendChild(createDay(days[i]));
+    for (let i = 0; i < countDays; i++) {
+        week.appendChild(createDay(days[firstDayOfWeek]));
+
+        firstDayOfWeek++
+        if (firstDayOfWeek >= days.length) {
+            firstDayOfWeek = 0
+        };
     };
 
     return week;
@@ -20,17 +26,22 @@ const createWeek = (countsDays) => {
 
 function createMonth(daysOfMonth) {
     const weekLength = days.length
-    let countsDays = daysOfMonth;
+    let countDays = daysOfMonth;
 
-    for (let i = 0; i < Math.ceil(daysOfMonth / weekLength); i++) { 
-        
-        if (countsDays >= weekLength) {
-            document.querySelector(".container").appendChild(createWeek(weekLength));
-            countsDays -= weekLength;
+    for (let i = 0; i < Math.ceil(daysOfMonth / weekLength); i++) {
+        if (countDays >= weekLength) {
+            document.querySelector(".container").appendChild(createWeek(weekLength, firstDayOfWeek));
+            countDays -= weekLength;
         } else {
-            document.querySelector(".container").appendChild(createWeek(countsDays));
+            document.querySelector(".container").appendChild(createWeek(countDays, firstDayOfWeek));
         };
     };
+
+    firstDayOfWeek += daysOfMonth%weekLength
+    if (firstDayOfWeek >= days.length) {
+        firstDayOfWeek = 0
+    };
+    
 };
 
 const createYear = () => {
