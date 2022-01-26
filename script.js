@@ -1,6 +1,6 @@
 {
     const days = ["pon", "wt", "śrd", "czw", "pt", "sb", "niedz"];
-    let firstDayOfWeek = 0;
+    let firstDayOfWeek = 5;
 
     const createDay = (dayName) => {
         const day = document.createElement('div');
@@ -41,7 +41,7 @@
         };
 
         firstDayOfWeek += daysOfMonth % weekLength
-        
+
         if (firstDayOfWeek >= days.length) {
             firstDayOfWeek -= weekLength;
         };
@@ -52,7 +52,7 @@
     const createYear = () => {
         for (let i = 0; i < 12; i++) {
             document.querySelector(".container").innerHTML += `<div class="day day__month">${i + 1}</div>`;
-            document.querySelector(".container").appendChild(createMonth(30));
+            document.querySelector(".container").appendChild(createMonth(new Date(2022, i + 1, 0).getDate()));
         };
     };
 
