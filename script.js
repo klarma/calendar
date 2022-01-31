@@ -1,25 +1,42 @@
 {
     const days = ["pon", "wt", "śrd", "czw", "pt", "sb", "niedz"];
-    let firstDayOfWeek = 5;
+    let firstDayOfMonth = 5;
 
-    const createDay = (dayName) => {
+
+    const createDay = (dayName, emptyDays = 0) => {
         const day = document.createElement('div');
         day.classList.add("day");
         day.innerText = dayName;
 
+        if (emptyDays) {
+            day.classList.add("emptyDay");
+        };
+
         return day;
     };
 
-    const createWeek = (countDays, firstDayOfWeek) => {
+    const createWeek = () => {
         const week = document.createElement('div');
 
-        for (let i = 0; i < countDays; i++) {
-            week.appendChild(createDay(days[firstDayOfWeek]));
+        for (let i = 0; i < 7; i++) {
+            week.appendChild(createDay(days[i]))
+        };
 
-            firstDayOfWeek++
-            if (firstDayOfWeek >= days.length) {
-                firstDayOfWeek = 0;
-            };
+        return week;
+    };
+
+    const createIncompleteWeek = (emptyDays) => {
+        const week = document.createElement('div');
+        let index = 0;
+
+        for (let i = 0; i < emptyDays.length; i++) {
+            week.appendChild(createDay(days[i], emptyDays));
+            index++
+        };
+
+        for (let i = 0; i < days.length - emptyDays.length; i++) {
+            week.appendChild(createDay(days[index]));
+            index++;
         };
 
         return week;
@@ -27,23 +44,21 @@
 
     function createMonth(daysOfMonth) {
         const month = document.createElement('div');
-
         const weekLength = days.length;
-        let countDays = daysOfMonth;
+        let emptyDays = [...days].splice(0, firstDayOfMonth);
 
-        for (let i = 0; i < Math.ceil(daysOfMonth / weekLength); i++) {
-            if (countDays >= weekLength) {
-                month.appendChild(createWeek(weekLength, firstDayOfWeek));
-                countDays -= weekLength;
+        for (let i = 0; i < 6; i++) {
+            if (!i) {
+                month.appendChild(createIncompleteWeek(emptyDays));
             } else {
-                month.appendChild(createWeek(countDays, firstDayOfWeek));
+                month.appendChild(createWeek())
             };
         };
 
-        firstDayOfWeek += daysOfMonth % weekLength
+        firstDayOfMonth += daysOfMonth % weekLength;
 
-        if (firstDayOfWeek >= days.length) {
-            firstDayOfWeek -= weekLength;
+        if (firstDayOfMonth >= days.length) {
+            firstDayOfMonth -= weekLength;
         };
 
         return month;
@@ -51,7 +66,7 @@
 
     const createYear = () => {
         for (let i = 0; i < 12; i++) {
-            document.querySelector(".container").innerHTML += `<div class="day day__month">${i + 1}</div>`;
+            document.querySelector(".container").innerHTML += `<div class="day month">${i + 1}</div>`;
             document.querySelector(".container").appendChild(createMonth(new Date(2022, i + 1, 0).getDate()));
         };
     };

@@ -26,7 +26,11 @@ body {
     text-align: center;
 }
 
-.day__month{
+.emptyDay {
+    color: rgb(160, 157, 157);
+}
+
+.month {
     display: block;
     margin: 10px 0;
     color: red;
